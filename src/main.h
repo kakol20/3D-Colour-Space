@@ -7,6 +7,11 @@
 //#define USE_MAP
 
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <sstream>
+#include <cmath>
 
 
 #endif // !MAIN_H
