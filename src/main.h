@@ -17,5 +17,6 @@
 
 #include "colorSpaces/sRGB.h"
 #include "colorSpaces/LinearRGB.h"
+#include "colorSpaces/CIE_XYZ.h"
 
 #endif // !MAIN_H

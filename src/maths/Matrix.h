@@ -68,6 +68,10 @@ public:
     void Pow(const double pow);
     void Cbrt();
 
+    inline double GetValue(const size_t col, const size_t row) const {
+        return m_matrix[col][row];
+    };
+
 private:
     size_t m_cols, m_rows;
 

@@ -4,32 +4,10 @@
 #include "main.h"
 
 int main(int argc, char* argv[]) {
-    // ----- TESTING -----
+    // ----- OTHER -----
 
-    Matrix lhsMat({
-        { 1, 0, 2 },
-        { 2, 1, 3 },
-        { 1, 0, 4 }
-    });
-    Matrix rhsMat({
-        { 2, 6, 1 },
-        { 5, 7, 8 }
-    });
-
-    Matrix multiplied = lhsMat * rhsMat;
-
-    Matrix invert({
-        {  1, 2, -1 },
-        {  2, 1,  2 },
-        { -1, 2,  1 }
-    });
-
-    Matrix invertResult = invert;
-    invertResult.Invert3x3();
-
-    {
-        bool test = true;
-    }
+    CIE_XYZ::ToRGBMat = CIE_XYZ::ToXYZMat;
+    CIE_XYZ::ToRGBMat.Invert3x3();
 
     // ----- START -----
 
@@ -55,10 +33,11 @@ int main(int argc, char* argv[]) {
 
                 sRGB rgb(std::stod(lineSegments[1]), std::stod(lineSegments[2]), std::stod(lineSegments[3]));
                 LinearRGB lrgb = LinearRGB::sRGBtoLinearRGB(rgb);
+                CIE_XYZ xyz = CIE_XYZ::LinearRGBtoXYZ(lrgb);
 
                 newOBJ += start;
                 newOBJ += ' ';
-                newOBJ += lrgb.Output();
+                newOBJ += xyz.Output();
                 newOBJ += '\n';
             }
             else if (lineSegments[0] == "o") {
@@ -75,10 +54,10 @@ int main(int argc, char* argv[]) {
 
     std::cout << newOBJ;
 
-    /*std::fstream newOBJFile;
+    std::fstream newOBJFile;
     newOBJFile.open("data/cie_xyz.obj", std::ios_base::out);
     newOBJFile << newOBJ;
-    newOBJFile.close();*/
+    newOBJFile.close();
 
     std::cout << "Press enter to exit...\n";
     std::cin.ignore();
