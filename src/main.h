@@ -13,5 +13,7 @@
 #include <sstream>
 #include <cmath>
 
+#include "colorSpaces/sRGB.h"
+
 
 #endif // !MAIN_H

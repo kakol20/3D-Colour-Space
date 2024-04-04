@@ -22,30 +22,34 @@ int main(int argc, char* argv[]) {
             }
 
             if (lineSegments[0] == "v") {
-                for (size_t i = 0; i < lineSegments.size(); i++) {
-                    //std::cout << lineSegments[i] << ' ';
-                    //newOBJ += lineSegments[i];
+                std::string start = lineSegments[0];
+                //for (size_t i = 0; i < lineSegments.size(); i++) {
+                //    //std::cout << lineSegments[i] << ' ';
+                //    //newOBJ += lineSegments[i];
 
-                    if (i > 0) {
-                        //newOBJ += lineSegments[i];
+                //    double r, g, b;
+                //    if (i > 0) {
+                //        //newOBJ += lineSegments[i];
 
-                        double value = std::stod(lineSegments[i]);
-                        value = std::pow(value, 2.2);
+                //        double value = std::stod(lineSegments[i]);
+                //        value = std::pow(value, 2.2);
 
-                        std::string valueStr = std::to_string(value);
-                        newOBJ += valueStr;
+                //        std::string valueStr = std::to_string(value);
+                //        newOBJ += valueStr;
+                //    }
+                //    else {
+                //        newOBJ += lineSegments[i];
+                //    }
 
-                        {
-                            bool test = false;
-                        }
-                    }
-                    else {
-                        newOBJ += lineSegments[i];
-                    }
-
-                    newOBJ += ' ';
-                }
+                //    newOBJ += ' ';
+                //}
                 //std::cout << '\n';
+
+                sRGB rgb(std::stod(lineSegments[1]), std::stod(lineSegments[2]), std::stod(lineSegments[3]));
+
+                newOBJ += start;
+                newOBJ += ' ';
+                newOBJ += rgb.Output();
                 newOBJ += '\n';
             }
             else if (lineSegments[0] == "o") {
@@ -62,10 +66,10 @@ int main(int argc, char* argv[]) {
 
     std::cout << newOBJ;
 
-    std::fstream newOBJFile;
+    /*std::fstream newOBJFile;
     newOBJFile.open("data/linear_rgb.obj", std::ios_base::out);
     newOBJFile << newOBJ;
-    newOBJFile.close();
+    newOBJFile.close();*/
 
     std::cout << "Press enter to exit...\n";
     std::cin.ignore();
