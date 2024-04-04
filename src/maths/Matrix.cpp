@@ -226,3 +226,19 @@ double Matrix::Determinant3x3() const {
 
     return NAN;
 }
+
+void Matrix::Pow(const double pow) {
+    for (size_t i = 0; i < m_cols; i++) {
+        for (size_t j = 0; j < m_rows; j++) {
+            m_matrix[i][j] = std::pow(m_matrix[i][j], pow);
+        }
+    }
+}
+
+void Matrix::Cbrt() {
+    for (size_t i = 0; i < m_cols; i++) {
+        for (size_t j = 0; j < m_rows; j++) {
+            m_matrix[i][j] = std::cbrt(m_matrix[i][j]);
+        }
+    }
+}

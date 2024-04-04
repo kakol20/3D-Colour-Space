@@ -63,6 +63,11 @@ public:
     /// <returns></returns>
     double Determinant3x3() const;
 
+    // ----- OTHER -----
+
+    void Pow(const double pow);
+    void Cbrt();
+
 private:
     size_t m_cols, m_rows;
 
