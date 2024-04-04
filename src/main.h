@@ -13,8 +13,11 @@
 #include <sstream>
 #include <cmath>
 
+#include "maths/Matrix.h"
+
 #include "colorSpaces/sRGB.h"
 #include "colorSpaces/LinearRGB.h"
+
 
 
 #endif // !MAIN_H
