@@ -28,6 +28,13 @@ public:
 	/// <returns></returns>
 	static CIE_XYZ LinearRGBtoXYZ(const LinearRGB& rgb);
 
+	/// <summary>
+	/// Converts CIE XYZ to Linear RGB
+	/// </summary>
+	/// <param name="xyz"></param>
+	/// <returns></returns>
+	static LinearRGB XYZtoLinearRGB(const CIE_XYZ& xyz);
+
 	inline double GetX() const { return m_x; };
 	inline double GetY() const { return m_y; };
 	inline double GetZ() const { return m_z; };

@@ -27,8 +27,15 @@ CIE_XYZ::CIE_XYZ(const CIE_XYZ& xyz) {
 }
 
 CIE_XYZ CIE_XYZ::LinearRGBtoXYZ(const LinearRGB& rgb) {
-    Matrix outMatrix({ {rgb.GetR(), rgb.GetG(), rgb.GetB()} });
-    outMatrix = CIE_XYZ::ToXYZMat * outMatrix;
+    Matrix out({ {rgb.GetR(), rgb.GetG(), rgb.GetB()} });
+    out = CIE_XYZ::ToXYZMat * out;
 
-    return CIE_XYZ(outMatrix.GetValue(0, 0), outMatrix.GetValue(0, 1), outMatrix.GetValue(0, 2));
+    return CIE_XYZ(out.GetValue(0, 0), out.GetValue(0, 1), out.GetValue(0, 2));
+}
+
+LinearRGB CIE_XYZ::XYZtoLinearRGB(const CIE_XYZ& xyz) {
+    Matrix out({ {xyz.GetX(), xyz.GetY(), xyz.GetZ()}});
+    out = CIE_XYZ::ToRGBMat * out;
+
+    return LinearRGB(out.GetValue(0, 0), out.GetValue(0, 1), out.GetValue(0, 2));
 }
