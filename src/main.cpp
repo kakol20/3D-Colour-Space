@@ -46,10 +46,11 @@ int main(int argc, char* argv[]) {
                 //std::cout << '\n';
 
                 sRGB rgb(std::stod(lineSegments[1]), std::stod(lineSegments[2]), std::stod(lineSegments[3]));
+                LinearRGB lrgb = LinearRGB::sRGBtoLinearRGB(rgb);
 
                 newOBJ += start;
                 newOBJ += ' ';
-                newOBJ += rgb.Output();
+                newOBJ += lrgb.Output();
                 newOBJ += '\n';
             }
             else if (lineSegments[0] == "o") {
@@ -66,10 +67,10 @@ int main(int argc, char* argv[]) {
 
     std::cout << newOBJ;
 
-    /*std::fstream newOBJFile;
+    std::fstream newOBJFile;
     newOBJFile.open("data/linear_rgb.obj", std::ios_base::out);
     newOBJFile << newOBJ;
-    newOBJFile.close();*/
+    newOBJFile.close();
 
     std::cout << "Press enter to exit...\n";
     std::cin.ignore();

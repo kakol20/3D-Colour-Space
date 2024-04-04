@@ -14,6 +14,7 @@
 #include <cmath>
 
 #include "colorSpaces/sRGB.h"
+#include "colorSpaces/LinearRGB.h"
 
 
 #endif // !MAIN_H

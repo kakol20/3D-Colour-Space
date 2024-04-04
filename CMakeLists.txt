@@ -15,7 +15,7 @@ project ("3D Colour Space")
 
 # Add source to this project's executable.
 add_executable (3DColorSpace "src/main.h" 
-	"src/main.cpp" "src/colorSpaces/sRGB.cpp")
+	"src/main.cpp"  "src/colorSpaces/LinearRGB.cpp" "src/colorSpaces/sRGB.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DColorSpace PROPERTY CXX_STANDARD 20)
