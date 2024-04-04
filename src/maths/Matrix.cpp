@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "Matrix.h"
 
 //Matrix::Matrix(const size_t cols, const size_t rows) {
@@ -98,16 +100,16 @@ Matrix& Matrix::operator=(const Matrix& copy) {
     return *this;
 }
 
-Matrix Matrix::operator*(const Matrix& lhs) {
+Matrix Matrix::operator*(const Matrix& rhs) {
     Matrix out(m_matrix);
-    out *= lhs;
+    out *= rhs;
     return out;
 }
 
-Matrix& Matrix::operator*=(const Matrix& lhs) {
-    if (m_cols != lhs.m_rows) return *this; // Invalid multiplication
+Matrix& Matrix::operator*=(const Matrix& rhs) {
+    if (m_cols != rhs.m_rows) return *this; // Invalid multiplication
 
-    const size_t newCols = lhs.m_cols;
+    const size_t newCols = rhs.m_cols;
     const size_t newRows = m_rows;
 
     Array2D<double> newMat;
@@ -118,8 +120,8 @@ Matrix& Matrix::operator*=(const Matrix& lhs) {
         for (size_t j = 0; j < newRows; j++) {
             double total = 0;
 
-            for (size_t k = 0; k < lhs.m_rows; k++) {
-                total += m_matrix[k][j] * lhs.m_matrix[i][k];
+            for (size_t k = 0; k < rhs.m_rows; k++) {
+                total += m_matrix[k][j] * rhs.m_matrix[i][k];
             }
             jGrid.push_back(total);
         }
@@ -128,4 +130,99 @@ Matrix& Matrix::operator*=(const Matrix& lhs) {
 
     (*this) = newMat;
     return *this;
+}
+
+Matrix& Matrix::operator/=(const double scalar) {
+    for (size_t i = 0; i < m_cols; i++) {
+        for (size_t j = 0; j < m_rows; j++) {
+            m_matrix[i][j] /= scalar;
+        }
+    }
+
+    return *this;
+}
+
+bool Matrix::Invert3x3() {
+    // https://www.cuemath.com/algebra/inverse-of-3x3-matrix/
+    if (m_cols == 3 && m_rows == 3) {
+        // Find Adjoint of matrix
+        Matrix adjoint(m_matrix);
+        adjoint.Cofactor3x3();
+        adjoint.Transpose();
+
+        const double determinant = (*this).Determinant3x3();
+
+        if (determinant == 0.0) return false;
+
+        adjoint /= determinant;
+
+        (*this) = adjoint;
+
+        return true;
+    }
+
+    return false;
+}
+
+bool Matrix::Cofactor3x3() {
+    if (m_cols == 3 && m_rows == 3) {
+        Matrix newMat(3, 3);
+
+        for (size_t i = 0; i < 3; i++) {
+            for (size_t j = 0; j < 3; j++) {
+                const size_t colMax = i <= 1 ? 2 : 1;
+                const size_t colMin = i >= 1 ? 0 : 1;
+                
+                const size_t rowMax = j <= 1 ? 2 : 1;
+                const size_t rowMin = j >= 1 ? 0 : 1;
+
+                Array2D<double> detArr;
+                detArr.reserve(2);
+                detArr.push_back({ m_matrix[colMin][rowMin], m_matrix[colMin][rowMax] });
+                detArr.push_back({ m_matrix[colMax][rowMin], m_matrix[colMax][rowMax] });
+
+                Matrix detMat = detArr;
+
+                newMat.m_matrix[i][j] = detMat.Determinant2x2() * std::pow(-1, i + j + 2);
+            }
+        }
+
+        (*this) = newMat;
+
+        return true;
+    }
+    return false;
+}
+
+double Matrix::Determinant2x2() const {
+    if (m_cols == 2 && m_rows == 2) {
+        return (m_matrix[0][0] * m_matrix[1][1]) - (m_matrix[1][0] * m_matrix[0][1]);
+    }
+    return NAN;
+}
+
+void Matrix::Transpose() {
+    Matrix newMat(m_cols, m_rows);
+
+    for (size_t i = 0; i < m_cols; i++) {
+        for (size_t j = 0; j < m_rows; j++) {
+            newMat.m_matrix[j][i] = m_matrix[i][j];
+        }
+    }
+
+    (*this) = newMat;
+}
+
+double Matrix::Determinant3x3() const {
+    if (m_cols == 3 && m_rows == 3) {
+        return (m_matrix[0][0] * m_matrix[1][1] * m_matrix[2][2]) +
+            (m_matrix[1][0] * m_matrix[2][1] * m_matrix[0][2]) +
+            (m_matrix[2][0] * m_matrix[0][1] * m_matrix[1][2]) -
+
+            (m_matrix[0][0] * m_matrix[2][1] * m_matrix[1][2]) -
+            (m_matrix[1][0] * m_matrix[0][1] * m_matrix[2][2]) -
+            (m_matrix[2][0] * m_matrix[1][1] * m_matrix[0][2]);
+    }
+
+    return NAN;
 }

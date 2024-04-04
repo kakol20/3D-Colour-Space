@@ -30,8 +30,38 @@ public:
 
     // ----- MULTIPLICATION -----
 
-    Matrix operator*(const Matrix& lhs);
-    Matrix& operator*=(const Matrix& lhs);
+    Matrix operator*(const Matrix& rhs);
+    Matrix& operator*=(const Matrix& rhs);
+
+    Matrix& operator/=(const double scalar);
+
+    // ----- INVERSION -----
+
+    /// <summary>
+    /// Invert a 3 by 3 matrix
+    /// </summary>
+    /// <returns>If successful</returns>
+    bool Invert3x3();
+
+    /// <summary>
+    /// Get Cofactor of a 3 by 3 matrix
+    /// </summary>
+    /// <returns>If successful</returns>
+    bool Cofactor3x3();
+
+    /// <summary>
+    /// Get determinant of a 2 by 2 matrix
+    /// </summary>
+    /// <returns></returns>
+    double Determinant2x2() const;
+
+    void Transpose();
+
+    /// <summary>
+    /// Get determinant of a 3 by 3 matrix
+    /// </summary>
+    /// <returns></returns>
+    double Determinant3x3() const;
 
 private:
     size_t m_cols, m_rows;

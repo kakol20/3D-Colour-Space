@@ -4,6 +4,12 @@
 #include "main.h"
 
 int main(int argc, char* argv[]) {
+    // ----- TESTING -----
+
+    //Matrix lhs
+
+    // ----- START -----
+
     std::fstream objFile;
 
     std::string newOBJ = "";
@@ -34,7 +40,7 @@ int main(int argc, char* argv[]) {
             }
             else if (lineSegments[0] == "o") {
                 //std::cout << "o Linear RGB\n";
-                newOBJ += "o Linear RGB\n";
+                newOBJ += "o CIE XYZ\n";
             }
             else {
                 //std::cout << line << '\n';
@@ -47,7 +53,7 @@ int main(int argc, char* argv[]) {
     std::cout << newOBJ;
 
     /*std::fstream newOBJFile;
-    newOBJFile.open("data/linear_rgb.obj", std::ios_base::out);
+    newOBJFile.open("data/cie_xyz.obj", std::ios_base::out);
     newOBJFile << newOBJ;
     newOBJFile.close();*/
 
