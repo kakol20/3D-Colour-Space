@@ -16,7 +16,7 @@ Matrix::Matrix(const Array2D<double>& matrix) {
         Array1D<double> jGrid;
         jGrid.reserve(m_rows);
 
-        for (size_t j = 0; i < m_rows; j++) {
+        for (size_t j = 0; j < m_rows; j++) {
             jGrid.push_back(matrix[i][j]);
         }
         m_matrix.push_back(jGrid);
@@ -34,7 +34,7 @@ Matrix::Matrix(const Matrix& other) {
         Array1D<double> jGrid;
         jGrid.reserve(m_rows);
 
-        for (size_t j = 0; i < m_rows; j++) {
+        for (size_t j = 0; j < m_rows; j++) {
             jGrid.push_back(other.m_matrix[i][j]);
         }
         m_matrix.push_back(jGrid);
@@ -70,7 +70,7 @@ Matrix& Matrix::operator=(const Array2D<double>& copy) {
         Array1D<double> jGrid;
         jGrid.reserve(m_rows);
 
-        for (size_t j = 0; i < m_rows; j++) {
+        for (size_t j = 0; j < m_rows; j++) {
             jGrid.push_back(copy[i][j]);
         }
         m_matrix.push_back(jGrid);
@@ -91,7 +91,7 @@ Matrix& Matrix::operator=(const Matrix& copy) {
         Array1D<double> jGrid;
         jGrid.reserve(m_rows);
 
-        for (size_t j = 0; i < m_rows; j++) {
+        for (size_t j = 0; j < m_rows; j++) {
             jGrid.push_back(copy.m_matrix[i][j]);
         }
         m_matrix.push_back(jGrid);
