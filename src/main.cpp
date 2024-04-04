@@ -6,7 +6,30 @@
 int main(int argc, char* argv[]) {
     // ----- TESTING -----
 
-    //Matrix lhs
+    Matrix lhsMat({
+        { 1, 0, 2 },
+        { 2, 1, 3 },
+        { 1, 0, 4 }
+    });
+    Matrix rhsMat({
+        { 2, 6, 1 },
+        { 5, 7, 8 }
+    });
+
+    Matrix multiplied = lhsMat * rhsMat;
+
+    Matrix invert({
+        {  1, 2, -1 },
+        {  2, 1,  2 },
+        { -1, 2,  1 }
+    });
+
+    Matrix invertResult = invert;
+    invertResult.Invert3x3();
+
+    {
+        bool test = true;
+    }
 
     // ----- START -----
 
