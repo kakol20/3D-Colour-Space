@@ -24,7 +24,25 @@ int main(int argc, char* argv[]) {
             if (lineSegments[0] == "v") {
                 for (size_t i = 0; i < lineSegments.size(); i++) {
                     //std::cout << lineSegments[i] << ' ';
-                    newOBJ += lineSegments[i];
+                    //newOBJ += lineSegments[i];
+
+                    if (i > 0) {
+                        //newOBJ += lineSegments[i];
+
+                        double value = std::stod(lineSegments[i]);
+                        value = std::pow(value, 2.2);
+
+                        std::string valueStr = std::to_string(value);
+                        newOBJ += valueStr;
+
+                        {
+                            bool test = false;
+                        }
+                    }
+                    else {
+                        newOBJ += lineSegments[i];
+                    }
+
                     newOBJ += ' ';
                 }
                 //std::cout << '\n';
@@ -43,6 +61,11 @@ int main(int argc, char* argv[]) {
     }
 
     std::cout << newOBJ;
+
+    std::fstream newOBJFile;
+    newOBJFile.open("data/linear_rgb.obj", std::ios_base::out);
+    newOBJFile << newOBJ;
+    newOBJFile.close();
 
     std::cout << "Press enter to exit...\n";
     std::cin.ignore();
