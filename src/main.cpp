@@ -4,6 +4,35 @@
 #include "main.h"
 
 int main(int argc, char* argv[]) {
+    // ----- TESTING -----
+
+    Matrix lhsMat({
+        { 1, 0, 2 },
+        { 2, 1, 3 },
+        { 1, 0, 4 }
+    });
+    Matrix rhsMat({
+        { 2, 6, 1 },
+        { 5, 7, 8 }
+    });
+
+    Matrix multiplied = lhsMat * rhsMat;
+
+    Matrix invert({
+        {  1, 2, -1 },
+        {  2, 1,  2 },
+        { -1, 2,  1 }
+    });
+
+    Matrix invertResult = invert;
+    invertResult.Invert3x3();
+
+    {
+        bool test = true;
+    }
+
+    // ----- START -----
+
     std::fstream objFile;
 
     std::string newOBJ = "";
@@ -23,27 +52,6 @@ int main(int argc, char* argv[]) {
 
             if (lineSegments[0] == "v") {
                 std::string start = lineSegments[0];
-                //for (size_t i = 0; i < lineSegments.size(); i++) {
-                //    //std::cout << lineSegments[i] << ' ';
-                //    //newOBJ += lineSegments[i];
-
-                //    double r, g, b;
-                //    if (i > 0) {
-                //        //newOBJ += lineSegments[i];
-
-                //        double value = std::stod(lineSegments[i]);
-                //        value = std::pow(value, 2.2);
-
-                //        std::string valueStr = std::to_string(value);
-                //        newOBJ += valueStr;
-                //    }
-                //    else {
-                //        newOBJ += lineSegments[i];
-                //    }
-
-                //    newOBJ += ' ';
-                //}
-                //std::cout << '\n';
 
                 sRGB rgb(std::stod(lineSegments[1]), std::stod(lineSegments[2]), std::stod(lineSegments[3]));
                 LinearRGB lrgb = LinearRGB::sRGBtoLinearRGB(rgb);
@@ -55,7 +63,7 @@ int main(int argc, char* argv[]) {
             }
             else if (lineSegments[0] == "o") {
                 //std::cout << "o Linear RGB\n";
-                newOBJ += "o Linear RGB\n";
+                newOBJ += "o CIE XYZ\n";
             }
             else {
                 //std::cout << line << '\n';
@@ -67,10 +75,10 @@ int main(int argc, char* argv[]) {
 
     std::cout << newOBJ;
 
-    std::fstream newOBJFile;
-    newOBJFile.open("data/linear_rgb.obj", std::ios_base::out);
+    /*std::fstream newOBJFile;
+    newOBJFile.open("data/cie_xyz.obj", std::ios_base::out);
     newOBJFile << newOBJ;
-    newOBJFile.close();
+    newOBJFile.close();*/
 
     std::cout << "Press enter to exit...\n";
     std::cin.ignore();
