@@ -97,3 +97,35 @@ Matrix& Matrix::operator=(const Matrix& copy) {
 
     return *this;
 }
+
+Matrix Matrix::operator*(const Matrix& lhs) {
+    Matrix out(m_matrix);
+    out *= lhs;
+    return out;
+}
+
+Matrix& Matrix::operator*=(const Matrix& lhs) {
+    if (m_cols != lhs.m_rows) return *this; // Invalid multiplication
+
+    const size_t newCols = lhs.m_cols;
+    const size_t newRows = m_rows;
+
+    Array2D<double> newMat;
+    newMat.reserve(newCols);
+    for (size_t i = 0; i < newCols; i++) {
+        Array1D<double> jGrid;
+        jGrid.reserve(newRows);
+        for (size_t j = 0; j < newRows; j++) {
+            double total = 0;
+
+            for (size_t k = 0; k < lhs.m_rows; k++) {
+                total += m_matrix[k][j] * lhs.m_matrix[i][k];
+            }
+            jGrid.push_back(total);
+        }
+        newMat.push_back(jGrid);
+    }
+
+    (*this) = newMat;
+    return *this;
+}

@@ -28,6 +28,11 @@ public:
     Matrix& operator=(const Array2D<double>& copy);
     Matrix& operator=(const Matrix& copy);
 
+    // ----- MULTIPLICATION -----
+
+    Matrix operator*(const Matrix& lhs);
+    Matrix& operator*=(const Matrix& lhs);
+
 private:
     size_t m_cols, m_rows;
 
