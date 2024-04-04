@@ -21,11 +21,18 @@ public:
 	// ----- OTHER -----
 
 	/// <summary>
-	/// Convert sRGB to Linear
+	/// Convert sRGB to Linear RGB
 	/// </summary>
 	/// <param name="srgb"></param>
 	/// <returns></returns>
 	static LinearRGB sRGBtoLinearRGB(const sRGB& srgb);
+
+	/// <summary>
+	/// Convert Linear RGB to sRGB
+	/// </summary>
+	/// <param name="lrgb"></param>
+	/// <returns></returns>
+	static sRGB LinearRGBtosRGB(const LinearRGB& lrgb);
 
 	inline double GetR() const { return m_r; };
 	inline double GetG() const { return m_g; };

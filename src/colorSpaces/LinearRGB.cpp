@@ -44,3 +44,32 @@ LinearRGB LinearRGB::sRGBtoLinearRGB(const sRGB& srgb) {
 
     return out;
 }
+
+sRGB LinearRGB::LinearRGBtosRGB(const LinearRGB& lrgb) {
+    double r = lrgb.m_r;
+    double g = lrgb.m_g;
+    double b = lrgb.m_b;
+
+    if (r <= 0.0031318) {
+        r *= 12.92;
+    }
+    else {
+        r = std::pow(1.055 * r, 1. / 2.4) - 0.055;
+    }
+
+    if (g <= 0.0031318) {
+        g *= 12.92;
+    }
+    else {
+        g = std::pow(1.055 * g, 1. / 2.4) - 0.055;
+    }
+
+    if (b <= 0.0031318) {
+        b *= 12.92;
+    }
+    else {
+        b = std::pow(1.055 * b, 1. / 2.4) - 0.055;
+    }
+
+    return sRGB(r, g, b);
+}

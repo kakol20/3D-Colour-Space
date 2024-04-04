@@ -4,7 +4,7 @@
 
 class sRGB {
 public:
-	sRGB(const double r, const double g, const double b) {
+	sRGB(const double r = 0, const double g = 0, const double b = 0) {
 		m_r = r;
 		m_g = g;
 		m_b = b;
