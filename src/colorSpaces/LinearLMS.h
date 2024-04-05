@@ -28,6 +28,13 @@ public:
     /// <returns></returns>
     static LinearLMS XYZtoLinearLMS(const CIE_XYZ& xyz);
 
+    /// <summary>
+    /// Convert Linear LMS to CIE XYZ
+    /// </summary>
+    /// <param name="lms"></param>
+    /// <returns></returns>
+    static CIE_XYZ LinearLMStoXYZ(const LinearLMS& lms);
+
     static Matrix ToLLMSMat;
     static Matrix ToXYZMat;
 

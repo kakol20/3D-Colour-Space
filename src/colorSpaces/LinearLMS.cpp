@@ -24,3 +24,9 @@ LinearLMS LinearLMS::XYZtoLinearLMS(const CIE_XYZ& xyz) {
     out = LinearLMS::ToLLMSMat * out;
     return LinearLMS(out.GetValue(0, 0), out.GetValue(0, 1), out.GetValue(0, 2));
 }
+
+CIE_XYZ LinearLMS::LinearLMStoXYZ(const LinearLMS& lms) {
+    Matrix out({ {lms.GetL(), lms.GetM(), lms.GetS()} });
+    out = LinearLMS::ToXYZMat * out;
+    return CIE_XYZ(out.GetValue(0, 0), out.GetValue(0, 1), out.GetValue(0, 2));
+}
