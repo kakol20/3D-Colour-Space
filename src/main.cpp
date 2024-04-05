@@ -9,11 +9,14 @@ int main(int argc, char* argv[]) {
     CIE_XYZ::ToRGBMat = CIE_XYZ::ToXYZMat;
     CIE_XYZ::ToRGBMat.Invert3x3();
 
+    LinearLMS::ToXYZMat = LinearLMS::ToLLMSMat;
+    LinearLMS::ToXYZMat.Invert3x3();
+
     // ----- START -----
 
     std::fstream objFile;
 
-    std::string newOBJ = "";
+    std::string obj_string = "";
 
     objFile.open("data/rgb_cube_subdivided.obj");
     if (objFile.is_open()) {
@@ -34,30 +37,32 @@ int main(int argc, char* argv[]) {
                 sRGB rgb(std::stod(lineSegments[1]), std::stod(lineSegments[2]), std::stod(lineSegments[3]));
                 LinearRGB lrgb = LinearRGB::sRGBtoLinearRGB(rgb);
                 CIE_XYZ xyz = CIE_XYZ::LinearRGBtoXYZ(lrgb);
+                LinearLMS l_lms = LinearLMS::XYZtoLinearLMS(xyz);
+                LMS lms = LMS::LinearLMStoLMS(l_lms);
 
-                newOBJ += start;
-                newOBJ += ' ';
-                newOBJ += xyz.Output();
-                newOBJ += '\n';
+                obj_string += start;
+                obj_string += ' ';
+                obj_string += lms.Output();
+                obj_string += '\n';
             }
             else if (lineSegments[0] == "o") {
                 //std::cout << "o Linear RGB\n";
-                newOBJ += "o CIE XYZ\n";
+                obj_string += "o LMS\n";
             }
             else {
                 //std::cout << line << '\n';
-                newOBJ += line;
-                newOBJ += '\n';
+                obj_string += line;
+                obj_string += '\n';
             }
         }
     }
 
-    std::cout << newOBJ;
+    std::cout << obj_string;
 
-    std::fstream newOBJFile;
-    newOBJFile.open("data/cie_xyz.obj", std::ios_base::out);
-    newOBJFile << newOBJ;
-    newOBJFile.close();
+    std::fstream obj_fstream;
+    obj_fstream.open("data/lms.obj", std::ios_base::out);
+    obj_fstream << obj_string;
+    obj_fstream.close();
 
     std::cout << "Press enter to exit...\n";
     std::cin.ignore();
