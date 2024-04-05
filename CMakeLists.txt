@@ -20,7 +20,8 @@ add_executable (3DColorSpace "src/main.h"
     "src/colorSpaces/sRGB.h" 
     "src/maths/Matrix.cpp" 
     "src/colorSpaces/CIE_XYZ.cpp" 
-    "src/colorSpaces/LinearLMS.cpp")
+    "src/colorSpaces/LinearLMS.cpp"
+    "src/colorSpaces/LMS.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DColorSpace PROPERTY CXX_STANDARD 20)

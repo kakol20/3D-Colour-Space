@@ -5,3 +5,4 @@ bin/
 CMakeSettings.json
 .log
 *.blend1
+*.mp4

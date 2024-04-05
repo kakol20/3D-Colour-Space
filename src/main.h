@@ -19,5 +19,6 @@
 #include "colorSpaces/LinearRGB.h"
 #include "colorSpaces/CIE_XYZ.h"
 #include "colorSpaces/LinearLMS.h"
+#include "colorSpaces/LMS.h"
 
 #endif // !MAIN_H
