@@ -12,6 +12,9 @@ int main(int argc, char* argv[]) {
     LinearLMS::ToXYZMat = LinearLMS::ToLLMSMat;
     LinearLMS::ToXYZMat.Invert3x3();
 
+    OkLab::ToLMSMat = OkLab::ToOkLabMat;
+    OkLab::ToLMSMat.Invert3x3();
+
     // ----- START -----
 
     std::fstream objFile;
@@ -39,15 +42,16 @@ int main(int argc, char* argv[]) {
                 CIE_XYZ xyz = CIE_XYZ::LinearRGBtoXYZ(lrgb);
                 LinearLMS l_lms = LinearLMS::XYZtoLinearLMS(xyz);
                 LMS lms = LMS::LinearLMStoLMS(l_lms);
+                OkLab lab = OkLab::LMStoOkLab(lms);
 
                 obj_string += start;
                 obj_string += ' ';
-                obj_string += lms.Output();
+                obj_string += lab.Output();
                 obj_string += '\n';
             }
             else if (lineSegments[0] == "o") {
                 //std::cout << "o Linear RGB\n";
-                obj_string += "o LMS\n";
+                obj_string += "o OkLab\n";
             }
             else {
                 //std::cout << line << '\n';
@@ -60,7 +64,7 @@ int main(int argc, char* argv[]) {
     std::cout << obj_string;
 
     std::fstream obj_fstream;
-    obj_fstream.open("data/lms.obj", std::ios_base::out);
+    obj_fstream.open("data/oklab.obj", std::ios_base::out);
     obj_fstream << obj_string;
     obj_fstream.close();
 
