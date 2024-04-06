@@ -15,7 +15,7 @@ Show colour spaces as a 3d object .obj file
 | CIE XYZ | X | Y | Z |
 | Linear LMS | L | M | S |
 | LMS | L | M | S |
-| OkLab | L | a | b |
+| OkLab[^1] | a | b | L |
 
 ### In .obj file
 | Colour Space | X | Y | Z |
@@ -26,3 +26,5 @@ Show colour spaces as a 3d object .obj file
 | Linear LMS | L | S | M |
 | LMS | L | S | M |
 | OkLab | L | b | a |
+
+[^1]: OkLab 3D Object was rotated to align with other objects *(y: -90°, z: -90°)**
