@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
             if (lineSegments[0] == "v") {
                 std::string start = lineSegments[0];
 
-                sRGB rgb(std::stod(lineSegments[1]), std::stod(lineSegments[3]), std::stod(lineSegments[2]));
+                sRGB rgb(std::stod(lineSegments[1]), std::stod(lineSegments[2]), std::stod(lineSegments[3]));
                 LinearRGB lrgb = LinearRGB::sRGBtoLinearRGB(rgb);
                 CIE_XYZ xyz = CIE_XYZ::LinearRGBtoXYZ(lrgb);
                 LinearLMS l_lms = LinearLMS::XYZtoLinearLMS(xyz);

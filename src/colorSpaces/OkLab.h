@@ -30,7 +30,7 @@ public:
 	inline double GetA() const { return m_a; };
 	inline double GetB() const { return m_b; };
 
-	inline std::string Output() const { return std::to_string(m_l) + " " + std::to_string(m_b) + " " + std::to_string(m_a); };
+	inline std::string Output() const { return std::to_string(m_a) + " " + std::to_string(m_b) + " " + std::to_string(m_l); };
 
 	/// <summary>
 	/// Convert LMS to OkLab

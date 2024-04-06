@@ -39,7 +39,7 @@ public:
     inline double GetY() const { return m_y; };
     inline double GetZ() const { return m_z; };
 
-    inline std::string Output() const { return std::to_string(m_x) + " " + std::to_string(m_z) + " " + std::to_string(m_y); };
+    inline std::string Output() const { return std::to_string(m_x) + " " + std::to_string(m_y) + " " + std::to_string(m_z); };
 
     static Matrix ToXYZMat;
     static Matrix ToRGBMat;
