@@ -25,6 +25,25 @@ int main(int argc, char* argv[]) {
     if (objFile.is_open()) {
         std::string line;
 
+        struct Values {
+            double a;
+            double b;
+            double c;
+        };
+
+        struct MinMax {
+            Values min;
+            Values max;
+            std::string aName;
+            std::string bName;
+            std::string cName;
+
+            std::string spaceName;
+        };
+
+        std::map<std::string, MinMax> minMaxes;
+        bool firstLine = true;
+
         while (std::getline(objFile, line)) {
             std::stringstream lineStream(line.c_str());
             std::vector<std::string> lineSegments;
@@ -44,6 +63,83 @@ int main(int argc, char* argv[]) {
                 LMS lms = LMS::LinearLMStoLMS(l_lms);
                 OkLab lab = OkLab::LMStoOkLab(lms);
 
+                if (firstLine) {
+                    firstLine = false;
+
+                    minMaxes["1_xyz"].min.a = xyz.GetX();
+                    minMaxes["1_xyz"].min.b = xyz.GetY();
+                    minMaxes["1_xyz"].min.c = xyz.GetZ();
+                    minMaxes["1_xyz"].max.a = xyz.GetX();
+                    minMaxes["1_xyz"].max.b = xyz.GetY();
+                    minMaxes["1_xyz"].max.c = xyz.GetZ();
+                    minMaxes["1_xyz"].aName = "X";
+                    minMaxes["1_xyz"].bName = "Y";
+                    minMaxes["1_xyz"].cName = "Z";
+                    minMaxes["1_xyz"].spaceName = "CIE XYZ";
+
+                    minMaxes["2_l_lms"].min.a = l_lms.GetL();
+                    minMaxes["2_l_lms"].min.b = l_lms.GetM();
+                    minMaxes["2_l_lms"].min.c = l_lms.GetS();
+                    minMaxes["2_l_lms"].max.a = l_lms.GetL();
+                    minMaxes["2_l_lms"].max.b = l_lms.GetM();
+                    minMaxes["2_l_lms"].max.c = l_lms.GetS();
+                    minMaxes["2_l_lms"].aName = "L";
+                    minMaxes["2_l_lms"].bName = "M";
+                    minMaxes["2_l_lms"].cName = "S";
+                    minMaxes["2_l_lms"].spaceName = "Linear LMS";
+
+                    minMaxes["3_lms"].min.a = lms.GetL();
+                    minMaxes["3_lms"].min.b = lms.GetM();
+                    minMaxes["3_lms"].min.c = lms.GetS();
+                    minMaxes["3_lms"].max.a = lms.GetL();
+                    minMaxes["3_lms"].max.b = lms.GetM();
+                    minMaxes["3_lms"].max.c = lms.GetS();
+                    minMaxes["3_lms"].aName = "L";
+                    minMaxes["3_lms"].bName = "M";
+                    minMaxes["3_lms"].cName = "S";
+                    minMaxes["3_lms"].spaceName = "LMS";
+
+                    minMaxes["4_lab"].min.a = lab.GetL();
+                    minMaxes["4_lab"].min.b = lab.GetA();
+                    minMaxes["4_lab"].min.c = lab.GetB();
+                    minMaxes["4_lab"].max.a = lab.GetL();
+                    minMaxes["4_lab"].max.b = lab.GetA();
+                    minMaxes["4_lab"].max.c = lab.GetB();
+                    minMaxes["4_lab"].aName = "L";
+                    minMaxes["4_lab"].bName = "a";
+                    minMaxes["4_lab"].cName = "b";
+                    minMaxes["4_lab"].spaceName = "OkLab";
+                }
+                else {
+                    minMaxes["1_xyz"].min.a = std::min(xyz.GetX(), minMaxes["1_xyz"].min.a);
+                    minMaxes["1_xyz"].min.b = std::min(xyz.GetY(), minMaxes["1_xyz"].min.b);
+                    minMaxes["1_xyz"].min.c = std::min(xyz.GetZ(), minMaxes["1_xyz"].min.c);
+                    minMaxes["1_xyz"].max.a = std::max(xyz.GetX(), minMaxes["1_xyz"].max.a);
+                    minMaxes["1_xyz"].max.b = std::max(xyz.GetY(), minMaxes["1_xyz"].max.b);
+                    minMaxes["1_xyz"].max.c = std::max(xyz.GetZ(), minMaxes["1_xyz"].max.c);
+
+                    minMaxes["2_l_lms"].min.a = std::min(l_lms.GetL(), minMaxes["2_l_lms"].min.a);
+                    minMaxes["2_l_lms"].min.b = std::min(l_lms.GetM(), minMaxes["2_l_lms"].min.b);
+                    minMaxes["2_l_lms"].min.c = std::min(l_lms.GetS(), minMaxes["2_l_lms"].min.c);
+                    minMaxes["2_l_lms"].max.a = std::max(l_lms.GetL(), minMaxes["2_l_lms"].max.a);
+                    minMaxes["2_l_lms"].max.b = std::max(l_lms.GetM(), minMaxes["2_l_lms"].max.b);
+                    minMaxes["2_l_lms"].max.c = std::max(l_lms.GetS(), minMaxes["2_l_lms"].max.c);
+
+                    minMaxes["3_lms"].min.a = std::min(lms.GetL(), minMaxes["3_lms"].min.a);
+                    minMaxes["3_lms"].min.b = std::min(lms.GetM(), minMaxes["3_lms"].min.b);
+                    minMaxes["3_lms"].min.c = std::min(lms.GetS(), minMaxes["3_lms"].min.c);
+                    minMaxes["3_lms"].max.a = std::max(lms.GetL(), minMaxes["3_lms"].max.a);
+                    minMaxes["3_lms"].max.b = std::max(lms.GetM(), minMaxes["3_lms"].max.b);
+                    minMaxes["3_lms"].max.c = std::max(lms.GetS(), minMaxes["3_lms"].max.c);
+
+                    minMaxes["4_lab"].min.a = std::min(lab.GetL(), minMaxes["4_lab"].min.a);
+                    minMaxes["4_lab"].min.b = std::min(lab.GetA(), minMaxes["4_lab"].min.b);
+                    minMaxes["4_lab"].min.c = std::min(lab.GetB(), minMaxes["4_lab"].min.c);
+                    minMaxes["4_lab"].max.a = std::max(lab.GetL(), minMaxes["4_lab"].max.a);
+                    minMaxes["4_lab"].max.b = std::max(lab.GetA(), minMaxes["4_lab"].max.b);
+                    minMaxes["4_lab"].max.c = std::max(lab.GetB(), minMaxes["4_lab"].max.c);
+                }
+
                 obj_string += start;
                 obj_string += ' ';
                 obj_string += lab.Output();
@@ -59,16 +155,40 @@ int main(int argc, char* argv[]) {
                 obj_string += '\n';
             }
         }
+
+        std::string minMaxStr = "";
+        for (auto it = minMaxes.begin(); it != minMaxes.end(); it++) {
+            minMaxStr += it->second.spaceName + ":\n";
+
+            minMaxStr += "  Min:\n";
+            minMaxStr += "    " + it->second.aName + " = " + std::to_string(it->second.min.a) + '\n';
+            minMaxStr += "    " + it->second.bName + " = " + std::to_string(it->second.min.b) + '\n';
+            minMaxStr += "    " + it->second.cName + " = " + std::to_string(it->second.min.c) + '\n';
+
+            minMaxStr += "  Max:\n";
+            minMaxStr += "    " + it->second.aName + " = " + std::to_string(it->second.max.a) + '\n';
+            minMaxStr += "    " + it->second.bName + " = " + std::to_string(it->second.max.b) + '\n';
+            minMaxStr += "    " + it->second.cName + " = " + std::to_string(it->second.max.c) + '\n';
+
+            minMaxStr += '\n';
+        }
+
+        std::cout << minMaxStr;
+
+        std::fstream minMaxfs;
+        minMaxfs.open("data/minMax.txt", std::ios_base::out);
+        minMaxfs << minMaxStr;
+        minMaxfs.close();
     }
 
-    std::cout << obj_string;
+    //std::cout << obj_string;
 
-    std::fstream obj_fstream;
-    obj_fstream.open("data/oklab.obj", std::ios_base::out);
-    obj_fstream << obj_string;
-    obj_fstream.close();
+    //std::fstream obj_fstream;
+    //obj_fstream.open("data/oklab.obj", std::ios_base::out);
+    //obj_fstream << obj_string;
+    //obj_fstream.close();
 
-    //std::cout << "Press enter to exit...\n";
-    //std::cin.ignore();
+    std::cout << "Press enter to exit...\n";
+    std::cin.ignore();
     return 0;
 }
