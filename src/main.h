@@ -12,6 +12,8 @@
 #include <vector>
 #include <sstream>
 #include <cmath>
+#include <map>
+#include <unordered_map>
 
 #include "maths/Matrix.h"
 
