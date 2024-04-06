@@ -38,7 +38,7 @@ public:
     inline double GetG() const { return m_g; };
     inline double GetB() const { return m_b; };
 
-    inline std::string Output() const { return std::to_string(m_r) + " " + std::to_string(m_g) + " " + std::to_string(m_b); };
+    inline std::string Output() const { return std::to_string(m_r) + " " + std::to_string(m_b) + " " + std::to_string(m_g); };
 
 private:
     double m_r, m_g, m_b;

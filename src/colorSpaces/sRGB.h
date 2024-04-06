@@ -23,7 +23,7 @@ public:
 
     // ----- OTHER -----
 
-    inline std::string Output() const { return std::to_string(m_r) + " " + std::to_string(m_g) + " " + std::to_string(m_b); };
+    inline std::string Output() const { return std::to_string(m_r) + " " + std::to_string(m_b) + " " + std::to_string(m_g); };
 
     inline double GetR() const { return m_r; };
     inline double GetG() const { return m_g; };

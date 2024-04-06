@@ -7,6 +7,7 @@ Show colour spaces as a 3d object .obj file
 
 ## Coordinates Representation
 
+### In Blender
 | Colour Space | X | Y | Z |
 | --- | --- | --- | --- |
 | sRGB | R | G | B |
@@ -15,3 +16,13 @@ Show colour spaces as a 3d object .obj file
 | Linear LMS | L | M | S |
 | LMS | L | M | S |
 | OkLab | L | a | b |
+
+### In .obj file
+| Colour Space | X | Y | Z |
+| --- | --- | --- | --- |
+| sRGB | R | B | G |
+| Linear RGB | R | B | G |
+| CIE XYZ | X | Z | Y |
+| Linear LMS | L | S | M |
+| LMS | L | S | M |
+| OkLab | L | b | a |

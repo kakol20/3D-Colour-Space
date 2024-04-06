@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
             if (lineSegments[0] == "v") {
                 std::string start = lineSegments[0];
 
-                sRGB rgb(std::stod(lineSegments[1]), std::stod(lineSegments[2]), std::stod(lineSegments[3]));
+                sRGB rgb(std::stod(lineSegments[1]), std::stod(lineSegments[3]), std::stod(lineSegments[2]));
                 LinearRGB lrgb = LinearRGB::sRGBtoLinearRGB(rgb);
                 CIE_XYZ xyz = CIE_XYZ::LinearRGBtoXYZ(lrgb);
                 LinearLMS l_lms = LinearLMS::XYZtoLinearLMS(xyz);
@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
     obj_fstream << obj_string;
     obj_fstream.close();
 
-    std::cout << "Press enter to exit...\n";
-    std::cin.ignore();
+    //std::cout << "Press enter to exit...\n";
+    //std::cin.ignore();
     return 0;
 }

@@ -42,7 +42,7 @@ public:
     inline double GetM() const { return m_m; };
     inline double GetS() const { return m_s; };
 
-    inline std::string Output() const { return std::to_string(m_l) + " " + std::to_string(m_m) + " " + std::to_string(m_s); };
+    inline std::string Output() const { return std::to_string(m_l) + " " + std::to_string(m_s) + " " + std::to_string(m_m); };
 
 private:
     double m_l, m_m, m_s;
