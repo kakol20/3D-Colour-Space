@@ -17,6 +17,15 @@ int main(int argc, char* argv[]) {
 
     // ----- START -----
 
+    //GenerateOBJs();
+    GenerateCSV();
+
+    std::cout << "Press enter to exit...\n";
+    std::cin.ignore();
+    return 0;
+}
+
+void GenerateOBJs() {
     std::fstream objFile;
 
     std::string obj_string = "";
@@ -187,8 +196,41 @@ int main(int argc, char* argv[]) {
     //obj_fstream.open("data/oklab.obj", std::ios_base::out);
     //obj_fstream << obj_string;
     //obj_fstream.close();
+}
 
-    std::cout << "Press enter to exit...\n";
-    std::cin.ignore();
-    return 0;
+void GenerateCSV() {
+    std::string output = "R,G,B,L R,L G,L B,X,Y,Z,L L,L M,L S,L,M,S,L,a,b\n";
+
+    for (double b = 0; b <= 1; b += 1. / 16.) {
+        for (double g = 0; g <= 1; g += 1. / 16.) {
+            for (double r = 0; r <= 1; r += 1. / 16.) {
+                sRGB srgb(r, g, b);
+                output += std::to_string(r) + ',' + std::to_string(g) + ',' + std::to_string(b) + ',';
+
+                LinearRGB lrgb = LinearRGB::sRGBtoLinearRGB(srgb);
+                output += std::to_string(lrgb.GetR()) + ',' + std::to_string(lrgb.GetG()) + ',' + std::to_string(lrgb.GetB()) + ',';
+
+                CIE_XYZ xyz = CIE_XYZ::LinearRGBtoXYZ(lrgb);
+                output += std::to_string(xyz.GetX()) + ',' + std::to_string(xyz.GetY()) + ',' + std::to_string(xyz.GetZ()) + ',';
+
+                LinearLMS llms = LinearLMS::XYZtoLinearLMS(xyz);
+                output += std::to_string(llms.GetL()) + ',' + std::to_string(llms.GetM()) + ',' + std::to_string(llms.GetS()) + ',';
+
+                LMS lms = LMS::LinearLMStoLMS(llms);
+                output += std::to_string(lms.GetL()) + ',' + std::to_string(lms.GetM()) + ',' + std::to_string(lms.GetS()) + ',';
+
+                OkLab lab = OkLab::LMStoOkLab(lms);
+                output += std::to_string(lab.GetL()) + ',' + std::to_string(lab.GetA()) + ',' + std::to_string(lab.GetB());
+
+                output += '\n';
+            }
+        }
+    }
+
+    std::fstream csvfs;
+    csvfs.open("data/spaces.csv", std::ios_base::out);
+    csvfs << output;
+    csvfs.close();
+
+    std::cout << output;
 }

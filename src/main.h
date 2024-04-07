@@ -24,4 +24,8 @@
 #include "colorSpaces/LMS.h"
 #include "colorSpaces/OkLab.h"
 
+void GenerateOBJs();
+
+void GenerateCSV();
+
 #endif // !MAIN_H
