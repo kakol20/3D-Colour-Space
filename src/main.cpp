@@ -17,8 +17,8 @@ int main(int argc, char* argv[]) {
 
     // ----- START -----
 
-    //GenerateOBJs();
-    GenerateCSV();
+    GenerateOBJs();
+    //GenerateCSV();
 
     std::cout << "Press enter to exit...\n";
     std::cin.ignore();
@@ -155,7 +155,6 @@ void GenerateOBJs() {
                 obj_string += '\n';
             }
             else if (lineSegments[0] == "o") {
-                //std::cout << "o Linear RGB\n";
                 obj_string += "o OkLab\n";
             }
             else {
@@ -190,12 +189,12 @@ void GenerateOBJs() {
         minMaxfs.close();
     }
 
-    //std::cout << obj_string;
+    std::cout << obj_string;
 
-    //std::fstream obj_fstream;
-    //obj_fstream.open("data/oklab.obj", std::ios_base::out);
-    //obj_fstream << obj_string;
-    //obj_fstream.close();
+    std::fstream obj_fstream;
+    obj_fstream.open("data/oklab.obj", std::ios_base::out);
+    obj_fstream << obj_string;
+    obj_fstream.close();
 }
 
 void GenerateCSV() {
