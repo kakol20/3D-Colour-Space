@@ -38,9 +38,17 @@ Show colour spaces as a 3d object .obj file
 
 | OkLab | Min | Max |
 |---|---|---|
-| L | 0.000000 | 1.000000 |
+| L     |  0.000000 | 1.000000 |
 | a[^4] | -0.233916 | 0.276221 |
 | b[^4] | -0.311611 | 0.198484 |
+
+### OkLab Colours at Minimums & Maximums
+
+| Value | Min | Max |
+|---|---|---|
+| L | ![#000000](https://placehold.co/15x15/000000/000000.png) `#000000` | ![#FFFFFF](https://placehold.co/15x15/FFFFFF/FFFFFF.png) `#FFFFFF` |
+| a | ![#00FF00](https://placehold.co/15x15/00FF00/00FF00.png) `#00FF00` | ![#FF00DF](https://placehold.co/15x15/FF00DF/FF00DF.png) `#FF00DF` |
+| b | ![#0000FF](https://placehold.co/15x15/0000FF/0000FF.png) `#0000FF` | ![#FFFF00](https://placehold.co/15x15/FFFF00/FFFF00.png) `#FFFF00` |
 
 [^1]: Blender Import/Export Settings: +Y Forward & +Z Up
 [^2]: Coordinates changed so L value is up
