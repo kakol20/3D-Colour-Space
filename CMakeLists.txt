@@ -22,10 +22,9 @@ add_executable (3DColorSpace "src/main.h"
     "src/colorSpaces/CIE_XYZ.cpp" 
     "src/colorSpaces/LinearLMS.cpp"
     "src/colorSpaces/LMS.cpp"
-    "src/colorSpaces/OkLab.cpp")
+    "src/colorSpaces/OkLab.cpp" 
+    "src/colorSpaces/ColorSpaces.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DColorSpace PROPERTY CXX_STANDARD 20)
 endif()
-
-# TODO: Add tests and install targets if needed.

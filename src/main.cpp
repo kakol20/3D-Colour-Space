@@ -17,8 +17,9 @@ int main(int argc, char* argv[]) {
 
     // ----- START -----
 
-    GenerateOBJs();
+    //GenerateOBJs();
     //GenerateCSV();
+    FindMaxValue();
 
     std::cout << "Press enter to exit...\n";
     std::cin.ignore();
@@ -232,4 +233,36 @@ void GenerateCSV() {
     csvfs.close();
 
     std::cout << output;
+}
+
+void FindMaxValue() {
+    const int r = 255;
+
+    int maxG = 0, maxB = 0;
+
+    double oklab_l = 0;
+    double oklab_a = 0.;
+    double oklab_b = 0;
+    for (int g = 0; g < 256; g++) {
+        for (int b = 0; b < 256; b++) {
+            //std::cout << "Current(" << r << ',' << g << ',' << b << "): ";
+
+            sRGB srgb(double(r) / 255., double(g) / 255., double(b) / 255.);
+            OkLab lab = ColorSpaces::sRGBtoOkLab(srgb);
+
+            maxG = lab.GetA() >= oklab_a ? g : maxG;
+            maxB = lab.GetA() >= oklab_a ? b : maxB;
+
+            //std::cout << 
+
+            oklab_l = lab.GetA() >= oklab_a ? lab.GetL() : oklab_l;
+            oklab_b = lab.GetA() >= oklab_a ? lab.GetB() : oklab_b;
+            oklab_a = lab.GetA() >= oklab_a ? lab.GetA() : oklab_a;
+
+            //std::cout << l << ", " << maxA << ", " << b << '\n';
+        }
+    }
+    
+    std::cout << "RGB(" << r << ", " << maxG << ", " << maxB << "): ";
+    std::cout << oklab_l << ", " << oklab_a << ", " << oklab_b << '\n';
 }

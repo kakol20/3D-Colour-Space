@@ -23,9 +23,12 @@
 #include "colorSpaces/LinearLMS.h"
 #include "colorSpaces/LMS.h"
 #include "colorSpaces/OkLab.h"
+#include "colorSpaces/ColorSpaces.h"
 
 void GenerateOBJs();
 
 void GenerateCSV();
+
+void FindMaxValue();
 
 #endif // !MAIN_H
