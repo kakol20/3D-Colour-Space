@@ -6,14 +6,7 @@
 int main(int argc, char* argv[]) {
     // ----- OTHER -----
 
-    CIE_XYZ::ToRGBMat = CIE_XYZ::ToXYZMat;
-    CIE_XYZ::ToRGBMat.Invert3x3();
-
-    LinearLMS::ToXYZMat = LinearLMS::ToLLMSMat;
-    LinearLMS::ToXYZMat.Invert3x3();
-
-    OkLab::ToLMSMat = OkLab::ToOkLabMat;
-    OkLab::ToLMSMat.Invert3x3();
+    ColorSpaces::Initialise();
 
     // ----- START -----
 
@@ -31,7 +24,7 @@ void GenerateOBJs() {
 
     std::string obj_string = "";
 
-    objFile.open("data/rgb_cube_subdivided.obj");
+    objFile.open("data/sRGB.obj");
     if (objFile.is_open()) {
         std::string line;
 
@@ -199,7 +192,7 @@ void GenerateOBJs() {
 }
 
 void GenerateCSV() {
-    std::string output = "R,G,B,L R,L G,L B,X,Y,Z,L L,L M,L S,L,M,S,L,a,b\n";
+    std::string output = "R,G,B,R',G',B',X,Y,Z,L',M',S',L,M,S,L,a,b\n";
 
     for (double b = 0; b <= 1; b += 1. / 16.) {
         for (double g = 0; g <= 1; g += 1. / 16.) {
