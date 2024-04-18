@@ -54,21 +54,21 @@ sRGB LinearRGB::LinearRGBtosRGB(const LinearRGB& lrgb) {
         r *= 12.92;
     }
     else {
-        r = std::pow(1.055 * r, 1. / 2.4) - 0.055;
+      r = (1.055 * std::pow(r, 1. / 2.4)) - 0.055;
     }
 
     if (g <= 0.0031318) {
         g *= 12.92;
     }
     else {
-        g = std::pow(1.055 * g, 1. / 2.4) - 0.055;
+      g = (1.055 * std::pow(g, 1. / 2.4)) - 0.055;
     }
 
     if (b <= 0.0031318) {
         b *= 12.92;
     }
     else {
-        b = std::pow(1.055 * b, 1. / 2.4) - 0.055;
+      b = (1.055 * std::pow(b, 1. / 2.4)) - 0.055;
     }
 
     return sRGB(r, g, b);

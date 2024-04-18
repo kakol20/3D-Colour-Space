@@ -18,8 +18,8 @@ int main(int argc, char* argv[]) {
     // ----- START -----
 
     //GenerateOBJs();
-    //GenerateCSV();
-    FindMaxValue();
+    GenerateCSV();
+    //FindMaxValue();
 
     std::cout << "Press enter to exit...\n";
     std::cin.ignore();
@@ -199,7 +199,7 @@ void GenerateOBJs() {
 }
 
 void GenerateCSV() {
-    std::string output = "R,G,B,L R,L G,L B,X,Y,Z,L L,L M,L S,L,M,S,L,a,b\n";
+    std::string output = "R,G,B,R',G',B',X,Y,Z,L',M',S',L,M,S,L,a,b\n";
 
     for (double b = 0; b <= 1; b += 1. / 16.) {
         for (double g = 0; g <= 1; g += 1. / 16.) {
