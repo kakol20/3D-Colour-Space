@@ -16,7 +16,7 @@ Show colour spaces as a 3d object .obj file
 | LMS | L | M | S |
 | OkLab [^2] | a | b | L |
 
-## Minimum & Maximum Values [^3]
+## sRGB Minimum & Maximum Values [^3]
 
 | CIE XYZ | Min | Max |
 |---|---|---|
