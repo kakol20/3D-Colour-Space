@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
   option = LAB_O;
   GenerateOBJs();
 
-  //GenerateCSV();
+  GenerateCSV();
   //FindMaxValue();
 
   std::cout << "Press enter to exit...\n";
