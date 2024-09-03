@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 
   // ----- START -----
 
-  option = LINEAR_RGB_O;
+  /*option = LINEAR_RGB_O;
   GenerateOBJs();
   option = CIE_XYZ_O;
   GenerateOBJs();
@@ -27,10 +27,10 @@ int main(int argc, char* argv[]) {
   option = LMS_O;
   GenerateOBJs();
   option = LAB_O;
-  GenerateOBJs();
+  GenerateOBJs();*/
 
   GenerateCSV();
-  //FindMaxValue();
+  FindMaxValue();
 
   std::cout << "Press enter to exit...\n";
   std::cin.ignore();
@@ -271,11 +271,16 @@ void GenerateOBJs() {
 void GenerateCSV() {
   std::string output = "R,G,B,R',G',B',X,Y,Z,L',M',S',L,M,S,L,a,b\n";
 
-  for (double b = 0; b <= 1; b += 1. / 16.) {
-    for (double g = 0; g <= 1; g += 1. / 16.) {
-      for (double r = 0; r <= 1; r += 1. / 16.) {
-        sRGB srgb(r, g, b);
-        output += std::to_string(r) + ',' + std::to_string(g) + ',' + std::to_string(b) + ',';
+  const unsigned int max = 15;
+  for (unsigned int u_b = 0; u_b <= max; u_b++) {
+    double d_b = double(u_b) / double(max);
+    for (unsigned int u_g = 0; u_g <= max; u_g++) {
+      double d_g = double(u_g) / double(max);
+      for (unsigned int u_r = 0; u_r <= max; u_r++) {
+        double d_r = double(u_r) / double(max);
+
+        sRGB srgb(d_r, d_g, d_b);
+        output += std::to_string(d_r) + ',' + std::to_string(d_g) + ',' + std::to_string(d_b) + ',';
 
         LinearRGB lrgb = LinearRGB::sRGBtoLinearRGB(srgb);
         output += std::to_string(lrgb.GetR()) + ',' + std::to_string(lrgb.GetG()) + ',' + std::to_string(lrgb.GetB()) + ',';
