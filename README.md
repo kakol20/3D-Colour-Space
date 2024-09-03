@@ -47,7 +47,7 @@ Show colour spaces as a 3d object .obj file
 | Value | Min | Max |
 |---|---|---|
 | L | ![#000000](https://placehold.co/15x15/000000/000000.png) `#000000` | ![#FFFFFF](https://placehold.co/15x15/FFFFFF/FFFFFF.png) `#FFFFFF` |
-| a | ![#00FF00](https://placehold.co/15x15/00FF00/00FF00.png) `#00FF00` | ![#FF00E0](https://placehold.co/15x15/FF00E0/FF00E0.png) `#FF00E0` |
+| a | ![#00FF00](https://placehold.co/15x15/00FF00/00FF00.png) `#00FF00` | ![#FF00E0](https://placehold.co/15x15/FF00EF/FF00EF.png) `#FF00EF` |
 | b | ![#0000FF](https://placehold.co/15x15/0000FF/0000FF.png) `#0000FF` | ![#FFFF00](https://placehold.co/15x15/FFFF00/FFFF00.png) `#FFFF00` |
 
 [^1]: Blender Import/Export Settings: +Y Forward & +Z Up
