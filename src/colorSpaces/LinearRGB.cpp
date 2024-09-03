@@ -2,6 +2,10 @@
 
 #include "LinearRGB.h"
 
+double LinearRGB::Scalar = 387916. / 30017.;
+double LinearRGB::ToLinearLimit = 11 / 280;
+double LinearRGB::TosRGBLimit = LinearRGB::ToLinearLimit / LinearRGB::Scalar;
+
 LinearRGB::LinearRGB(const double r, const double g, const double b) {
     m_r = r;
     m_g = g;
@@ -21,22 +25,22 @@ LinearRGB LinearRGB::sRGBtoLinearRGB(const sRGB& srgb) {
     out.m_g = srgb.GetG();
     out.m_b = srgb.GetB();
 
-    if (out.m_r <= 0.04045) {
-        out.m_r /= 12.92;
+    if (out.m_r <= LinearRGB::ToLinearLimit) {
+        out.m_r /= LinearRGB::Scalar;
     }
     else {
         out.m_r = std::pow((out.m_r + 0.055) / 1.055, 2.4);
     }
 
-    if (out.m_g <= 0.04045) {
-        out.m_g /= 12.92;
+    if (out.m_g <= LinearRGB::ToLinearLimit) {
+        out.m_g /= LinearRGB::Scalar;
     }
     else {
         out.m_g = std::pow((out.m_g + 0.055) / 1.055, 2.4);
     }
 
-    if (out.m_b <= 0.04045) {
-        out.m_b /= 12.92;
+    if (out.m_b <= LinearRGB::ToLinearLimit) {
+        out.m_b /= LinearRGB::Scalar;
     }
     else {
         out.m_b = std::pow((out.m_b + 0.055) / 1.055, 2.4);
@@ -50,22 +54,22 @@ sRGB LinearRGB::LinearRGBtosRGB(const LinearRGB& lrgb) {
     double g = lrgb.m_g;
     double b = lrgb.m_b;
 
-    if (r <= 0.0031318) {
-        r *= 12.92;
+    if (r <= LinearRGB::TosRGBLimit) {
+        r *= LinearRGB::Scalar;
     }
     else {
       r = (1.055 * std::pow(r, 1. / 2.4)) - 0.055;
     }
 
-    if (g <= 0.0031318) {
-        g *= 12.92;
+    if (g <= LinearRGB::TosRGBLimit) {
+        g *= LinearRGB::Scalar;
     }
     else {
       g = (1.055 * std::pow(g, 1. / 2.4)) - 0.055;
     }
 
-    if (b <= 0.0031318) {
-        b *= 12.92;
+    if (b <= LinearRGB::TosRGBLimit) {
+        b *= LinearRGB::Scalar;
     }
     else {
       b = (1.055 * std::pow(b, 1. / 2.4)) - 0.055;
