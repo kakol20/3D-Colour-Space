@@ -18,7 +18,17 @@ int main(int argc, char* argv[]) {
 
   // ----- START -----
 
-  //GenerateOBJs();
+  option = LINEAR_RGB_O;
+  GenerateOBJs();
+  option = CIE_XYZ_O;
+  GenerateOBJs();
+  option = LINEAR_LMS_O;
+  GenerateOBJs();
+  option = LMS_O;
+  GenerateOBJs();
+  option = LAB_O;
+  GenerateOBJs();
+
   //GenerateCSV();
   //FindMaxValue();
 
@@ -152,10 +162,51 @@ void GenerateOBJs() {
 
         obj_string += start;
         obj_string += ' ';
-        obj_string += lab.Output();
+        //obj_string += lms.Output();
+
+        switch (option) {
+        case LINEAR_RGB_O:
+          obj_string += lrgb.Output();
+          break;
+        case CIE_XYZ_O:
+          obj_string += xyz.Output();
+          break;
+        case LINEAR_LMS_O:
+          obj_string += l_lms.Output();
+          break;
+        case LMS_O:
+          obj_string += lms.Output();
+          break;
+        case LAB_O:
+          obj_string += lab.Output();
+          break;
+        default:
+          break;
+        }
+
         obj_string += '\n';
       } else if (lineSegments[0] == "o") {
-        obj_string += "o OkLab\n";
+        //obj_string += "o CIE_\n";
+
+        switch (option) {
+        case LINEAR_RGB_O:
+          obj_string += "o Linear RGB\n";
+          break;
+        case CIE_XYZ_O:
+          obj_string += "o CIE XYZ\n";
+          break;
+        case LINEAR_LMS_O:
+          obj_string += "o Linear LMS\n";
+          break;
+        case LMS_O:
+          obj_string += "o LMS\n";
+          break;
+        case LAB_O:
+          obj_string += "o OkLab\n";
+          break;
+        default:
+          break;
+        }
       } else {
         //std::cout << line << '\n';
         obj_string += line;
@@ -191,7 +242,28 @@ void GenerateOBJs() {
   std::cout << obj_string;
 
   std::fstream obj_fstream;
-  obj_fstream.open("data/oklab.obj", std::ios_base::out);
+  //obj_fstream.open("data/lms.obj", std::ios_base::out);
+
+  switch (option) {
+  case LINEAR_RGB_O:
+    obj_fstream.open("data/linear_rgb.obj", std::ios_base::out);
+    break;
+  case CIE_XYZ_O:
+    obj_fstream.open("data/cie_xyz.obj", std::ios_base::out);
+    break;
+  case LINEAR_LMS_O:
+    obj_fstream.open("data/linear_lms.obj", std::ios_base::out);
+    break;
+  case LMS_O:
+    obj_fstream.open("data/lms.obj", std::ios_base::out);
+    break;
+  case LAB_O:
+    obj_fstream.open("data/oklab.obj", std::ios_base::out);
+    break;
+  default:
+    break;
+  }
+
   obj_fstream << obj_string;
   obj_fstream.close();
 }

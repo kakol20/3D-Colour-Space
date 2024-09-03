@@ -42,4 +42,8 @@ public:
 
 private:
     double m_r, m_g, m_b;
+
+    static double Scalar;
+    static double ToLinearLimit;
+    static double TosRGBLimit;
 };

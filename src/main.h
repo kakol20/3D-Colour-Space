@@ -25,6 +25,11 @@
 #include "colorSpaces/OkLab.h"
 #include "colorSpaces/ColorSpaces.h"
 
+enum OutputOption {
+  LINEAR_RGB_O, CIE_XYZ_O, LINEAR_LMS_O, LMS_O, LAB_O
+};
+OutputOption option;
+
 void GenerateOBJs();
 
 void GenerateCSV();
