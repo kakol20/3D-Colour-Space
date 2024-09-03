@@ -2,243 +2,231 @@
 
 #include "Matrix.h"
 
-//Matrix::Matrix(const size_t cols, const size_t rows) {
-//}
+Matrix::Matrix(const std::vector<double>& arr, const unsigned int cols, const unsigned int rows) {
+  m_cols = cols;
+  m_rows = rows;
 
-Matrix::Matrix(const Array2D<double>& matrix) {
-    m_cols = matrix.size();
-    m_rows = matrix[0].size();
+  m_mat = Pseudo2DArray<double>(arr, m_cols, m_rows);
+}
 
-    m_matrix.clear();
-    m_matrix.reserve(m_cols);
-
-    for (size_t i = 0; i < m_cols; i++) {
-        Array1D<double> jGrid;
-        jGrid.reserve(m_rows);
-
-        for (size_t j = 0; j < m_rows; j++) {
-            jGrid.push_back(matrix[i][j]);
-        }
-        m_matrix.push_back(jGrid);
-    }
+Matrix::Matrix(const Pseudo2DArray<double>& arr) {
+  m_mat = arr;
+  m_cols = m_mat.GetWidth();
+  m_rows = m_mat.GetHeight();
 }
 
 Matrix::Matrix(const Matrix& other) {
-    m_cols = other.m_matrix.size();
-    m_rows = other.m_matrix[0].size();
-
-    m_matrix.clear();
-    m_matrix.reserve(m_cols);
-
-    for (size_t i = 0; i < m_cols; i++) {
-        Array1D<double> jGrid;
-        jGrid.reserve(m_rows);
-
-        for (size_t j = 0; j < m_rows; j++) {
-            jGrid.push_back(other.m_matrix[i][j]);
-        }
-        m_matrix.push_back(jGrid);
-    }
+  m_cols = other.m_cols;
+  m_rows = other.m_rows;
+  m_mat = other.m_mat;
 }
 
-Matrix::Matrix(const size_t cols, const size_t rows) {
-    m_cols = cols;
-    m_rows = rows;
-
-    m_matrix.clear();
-    m_matrix.reserve(m_cols);
-
-    for (size_t i = 0; i < m_cols; i++) {
-        Array1D<double> jGrid;
-        jGrid.reserve(m_rows);
-
-        for (size_t j = 0; j < m_rows; j++) {
-            jGrid.push_back(0.0);
-        }
-        m_matrix.push_back(jGrid);
-    }
-}
-
-Matrix& Matrix::operator=(const Array2D<double>& copy) {
-    m_cols = copy.size();
-    m_rows = copy[0].size();
-
-    m_matrix.clear();
-    m_matrix.reserve(m_cols);
-
-    for (size_t i = 0; i < m_cols; i++) {
-        Array1D<double> jGrid;
-        jGrid.reserve(m_rows);
-
-        for (size_t j = 0; j < m_rows; j++) {
-            jGrid.push_back(copy[i][j]);
-        }
-        m_matrix.push_back(jGrid);
-    }
-    return *this;
-}
-
-Matrix& Matrix::operator=(const Matrix& copy) {
-    if (this == &copy) return *this;
-
-    m_cols = copy.m_matrix.size();
-    m_rows = copy.m_matrix[0].size();
-
-    m_matrix.clear();
-    m_matrix.reserve(m_cols);
-
-    for (size_t i = 0; i < m_cols; i++) {
-        Array1D<double> jGrid;
-        jGrid.reserve(m_rows);
-
-        for (size_t j = 0; j < m_rows; j++) {
-            jGrid.push_back(copy.m_matrix[i][j]);
-        }
-        m_matrix.push_back(jGrid);
-    }
-
-    return *this;
-}
-
-Matrix Matrix::operator*(const Matrix& rhs) {
-    Matrix out(m_matrix);
-    out *= rhs;
-    return out;
+Matrix& Matrix::operator=(const Matrix& other) {
+  if (this == &other) return *this;
+  m_cols = other.m_cols;
+  m_rows = other.m_rows;
+  m_mat = other.m_mat;
+  return *this;
 }
 
 Matrix& Matrix::operator*=(const Matrix& rhs) {
-    if (m_cols != rhs.m_rows) return *this; // Invalid multiplication
+  if (m_cols != rhs.m_rows) return *this;
 
-    const size_t newCols = rhs.m_cols;
-    const size_t newRows = m_rows;
+  const unsigned int newCols = rhs.m_cols;
+  const unsigned int newRows = m_rows;
 
-    Array2D<double> newMat;
-    newMat.reserve(newCols);
-    for (size_t i = 0; i < newCols; i++) {
-        Array1D<double> jGrid;
-        jGrid.reserve(newRows);
-        for (size_t j = 0; j < newRows; j++) {
-            double total = 0;
+  Pseudo2DArray<double> newMat(newCols, newRows);
 
-            for (size_t k = 0; k < rhs.m_rows; k++) {
-                total += m_matrix[k][j] * rhs.m_matrix[i][k];
-            }
-            jGrid.push_back(total);
-        }
-        newMat.push_back(jGrid);
+  for (unsigned int i = 0; i < newCols; i++) {
+    for (unsigned int j = 0; j < newRows; j++) {
+      double total = 0.;
+      for (unsigned int k = 0; k < rhs.m_rows; k++) {
+        total += m_mat(k, j) * rhs.m_mat(i, k);
+      }
+      newMat(i, j) = total;
     }
+  }
 
-    (*this) = newMat;
-    return *this;
+  m_mat = newMat;
+  m_cols = newCols;
+  m_rows = newRows;
+  return *this;
 }
 
-Matrix& Matrix::operator/=(const double scalar) {
-    for (size_t i = 0; i < m_cols; i++) {
-        for (size_t j = 0; j < m_rows; j++) {
-            m_matrix[i][j] /= scalar;
-        }
-    }
-
-    return *this;
+Matrix Matrix::operator*(const Matrix& rhs) const {
+  Matrix lhs(*this);
+  lhs *= rhs;
+  return lhs;
 }
 
-bool Matrix::Invert3x3() {
-    // https://www.cuemath.com/algebra/inverse-of-3x3-matrix/
-    if (m_cols == 3 && m_rows == 3) {
-        // Find Adjoint of matrix
-        Matrix adjoint(m_matrix);
-        adjoint.Cofactor3x3();
-        adjoint.Transpose();
-
-        const double determinant = (*this).Determinant3x3();
-
-        if (determinant == 0.0) return false;
-
-        adjoint /= determinant;
-
-        (*this) = adjoint;
-
-        return true;
+Matrix& Matrix::operator*=(const double scalar) {
+  for (unsigned int i = 0; i < m_cols; i++) {
+    for (unsigned int j = 0; j < m_rows; j++) {
+      m_mat(i, j) *= scalar;
     }
-
-    return false;
+  }
+  return *this;
 }
 
-bool Matrix::Cofactor3x3() {
-    if (m_cols == 3 && m_rows == 3) {
-        Matrix newMat(3, 3);
-
-        for (size_t i = 0; i < 3; i++) {
-            for (size_t j = 0; j < 3; j++) {
-                const size_t colMax = i <= 1 ? 2 : 1;
-                const size_t colMin = i >= 1 ? 0 : 1;
-                
-                const size_t rowMax = j <= 1 ? 2 : 1;
-                const size_t rowMin = j >= 1 ? 0 : 1;
-
-                Array2D<double> detArr;
-                detArr.reserve(2);
-                detArr.push_back({ m_matrix[colMin][rowMin], m_matrix[colMin][rowMax] });
-                detArr.push_back({ m_matrix[colMax][rowMin], m_matrix[colMax][rowMax] });
-
-                Matrix detMat = detArr;
-
-                newMat.m_matrix[i][j] = detMat.Determinant2x2() * std::pow(-1, i + j + 2);
-            }
-        }
-
-        (*this) = newMat;
-
-        return true;
-    }
-    return false;
+Matrix Matrix::operator*(const double scalar) const {
+  Matrix lhs(*this);
+  lhs *= scalar;
+  return lhs;
 }
 
-double Matrix::Determinant2x2() const {
-    if (m_cols == 2 && m_rows == 2) {
-        return (m_matrix[0][0] * m_matrix[1][1]) - (m_matrix[1][0] * m_matrix[0][1]);
-    }
-    return NAN;
+double& Matrix::operator()(const unsigned int x, const unsigned int y) {
+  return m_mat(x, y);
 }
 
-void Matrix::Transpose() {
-    Matrix newMat(m_cols, m_rows);
-
-    for (size_t i = 0; i < m_cols; i++) {
-        for (size_t j = 0; j < m_rows; j++) {
-            newMat.m_matrix[j][i] = m_matrix[i][j];
-        }
-    }
-
-    (*this) = newMat;
+double Matrix::operator()(const unsigned int x, const unsigned int y) const {
+  return m_mat(x, y);
 }
 
-double Matrix::Determinant3x3() const {
-    if (m_cols == 3 && m_rows == 3) {
-        return (m_matrix[0][0] * m_matrix[1][1] * m_matrix[2][2]) +
-            (m_matrix[1][0] * m_matrix[2][1] * m_matrix[0][2]) +
-            (m_matrix[2][0] * m_matrix[0][1] * m_matrix[1][2]) -
-
-            (m_matrix[0][0] * m_matrix[2][1] * m_matrix[1][2]) -
-            (m_matrix[1][0] * m_matrix[0][1] * m_matrix[2][2]) -
-            (m_matrix[2][0] * m_matrix[1][1] * m_matrix[0][2]);
+void Matrix::Pow(const double p) {
+  for (unsigned int i = 0; i < m_cols; i++) {
+    for (unsigned int j = 0; j < m_rows; j++) {
+      m_mat(i, j) = std::pow(m_mat(i, j), p);
     }
-
-    return NAN;
-}
-
-void Matrix::Pow(const double pow) {
-    for (size_t i = 0; i < m_cols; i++) {
-        for (size_t j = 0; j < m_rows; j++) {
-            m_matrix[i][j] = std::pow(m_matrix[i][j], pow);
-        }
-    }
+  }
 }
 
 void Matrix::Cbrt() {
-    for (size_t i = 0; i < m_cols; i++) {
-        for (size_t j = 0; j < m_rows; j++) {
-            m_matrix[i][j] = std::cbrt(m_matrix[i][j]);
-        }
+  for (unsigned int i = 0; i < m_cols; i++) {
+    for (unsigned int j = 0; j < m_rows; j++) {
+      m_mat(i, j) = std::cbrt(m_mat(i, j));
     }
+  }
+}
+
+void Matrix::NRoot(const double n) {
+  const double exp = 1. / n;
+  for (unsigned int i = 0; i < m_cols; i++) {
+    for (unsigned int j = 0; j < m_rows; j++) {
+      if (std::fmod(n, 1.) == 0.) {
+        m_mat(i, j) = std::pow(m_mat(i, j), exp);
+      }
+      else {
+        double absroot = std::pow(std::abs(m_mat(i, j)), exp);
+        if (m_mat(i, j) < 0.) absroot *= -1.;
+        m_mat(i, j) = absroot;
+      }
+    }
+  }
+}
+
+void Matrix::Transpose() {
+  Pseudo2DArray<double> newMat(m_rows, m_cols);
+
+  for (unsigned int i = 0; i < m_cols; i++) {
+    for (unsigned int j = 0; j < m_rows; j++) {
+      newMat(j, i) = m_mat(i, j);
+    }
+  }
+
+  m_mat = newMat;
+  m_cols = newMat.GetWidth();
+  m_rows = newMat.GetHeight();
+
+  //return true;
+}
+
+double Matrix::Determinant() const {
+  if (m_rows != m_cols) return 0.0;
+
+  double total = 0.0;
+
+  for (int x = 0; x < (int)m_cols; x++) {
+    // addition
+
+    double mult = m_mat.GetValueWrapped(x, 0);
+    for (int i = 1; i < (int)m_rows; i++) {
+      mult *= m_mat.GetValueWrapped(x + i, i);
+    }
+    total += mult;
+
+    // subtraction
+
+    mult = m_mat.GetValueWrapped(x, 0);
+    for (int i = 1; i < (int)m_rows; i++) {
+      mult *= m_mat.GetValueWrapped(x - i, i);
+    }
+    total -= mult;
+  }
+
+  return total;
+}
+
+bool Matrix::Invert() {
+  if (m_rows != m_cols) return false;
+  if ((*this).Determinant() == 0.) return false;
+
+  const unsigned int size = m_rows;
+
+  // pivoting
+
+  Pseudo2DArray<double> identity = (*this).Identity().m_mat;
+  for (unsigned int x = 0; x < size; x++) {
+    // row exchange if pivot == 0
+    // swap with value in same column with biggest abs value
+    if (m_mat(x, x) == 0.) {
+      unsigned int swap_row = x == 0 ? 1 : 0;
+      double chosen_abs = 0;
+      for (unsigned int y = 0; y < size; y++) {
+        if (x != y) {
+          double abs = std::abs(m_mat(x, y));
+
+          if (abs > chosen_abs) {
+            swap_row = y;
+            chosen_abs = abs;
+          }
+        }
+      }
+
+      m_mat.SwapRows(x, swap_row);
+      identity.SwapRows(x, swap_row);
+    }
+
+    // zero other values in column
+    for (unsigned int y = 0; y < size; y++) {
+      if (y != x) {
+        double mult = (-1. * m_mat(x, y)) / m_mat(x, x);
+
+        for (unsigned int z = 0; z < size; z++) {
+          m_mat(z, y) = (mult * m_mat(z, x)) + m_mat(z, y);
+          identity(z, y) = (mult * identity(z, x)) + identity(z, y);
+        }
+      }
+    }
+  }
+
+  // multiply
+
+  for (unsigned int y = 0; y < size; y++) {
+    const double div = m_mat(y, y);
+    for (unsigned int x = 0; x < size; x++) {
+      identity(x, y) /= div;
+    }
+  }
+
+  m_mat = identity;
+
+  return true;
+}
+
+Matrix Matrix::Identity() const {
+  Matrix id(m_mat);
+  for (unsigned int y = 0; y < m_rows; y++) {
+    for (unsigned int x = 0; x < m_cols; x++) {
+      id.m_mat(x, y) = x == y ? 1. : 0.;
+    }
+  }
+  return id;
+}
+
+void Matrix::SetValue(const unsigned int x, const unsigned int y, const double value) {
+  m_mat(x, y) = value;
+}
+
+double Matrix::GetValue(const unsigned int x, const unsigned int y) const {
+  return m_mat(x, y);
 }
